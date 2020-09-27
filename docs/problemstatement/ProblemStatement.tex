@@ -1,0 +1,55 @@
+\documentclass{article}
+
+\usepackage{tabularx}
+\usepackage{booktabs}
+
+\title{CAS 741: Problem Statement\\Truss}
+
+\author{Ting-Yu Wu}
+
+\date{\today}
+
+\input{../Comments}
+
+\begin{document}
+
+\maketitle
+
+\begin{table}[hp]
+\caption{Revision History} \label{TblRevisionHistory}
+\begin{tabularx}{\textwidth}{llX}
+\toprule
+\textbf{Date} & \textbf{Developer(s)} & \textbf{Change}\\
+\midrule
+September 21, 2020 & Ting-Yu Wu & Initial Draft\\
+September 27, 2020 & Ting-Yu Wu & Updates according to issue \#1\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section*{Problem}
+A truss is a framework that could hold something up, supporting bridges, 
+roofs, or other structures. This project will focus on solving truss bridge 
+problems. Before operating a bridge, there are lots of testing and evaluations 
+need to be done, one of them is an analysis of trusses. We are trying to figure 
+out whether a bridge is safe enough to support various loads it encounters 
+(e.g., the weight of vehicles crossing it) by analyzing the stresses and 
+unknown forces acting in truss members. Knowing both motions and forces within 
+the trusses prepares us for a better understanding of how stable the 
+architecture is. The inputs of the software are the structures of the 
+bridge, external reacting forces, and load forces. The outputs are all the 
+internal forces of truss members and their stress distribution (tension and 
+compression).\\
+
+We will implement the Drasil project on this software. Following is the 
+homepage of Drasil: https://github.com/JacquesCarette/Drasil/. 
+
+\section*{Context}
+Specific stakeholders may include students, professors, researchers in the 
+field of mechanical and civil engineering, individuals interested in solving 
+forces of truss members, and all contributors to the Drasil project. The 
+software will be compatible with a variety of operating system environments, 
+including Windows, Linux and MacOS. 
+
+
+\end{document}
