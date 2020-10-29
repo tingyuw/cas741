@@ -1,0 +1,626 @@
+\documentclass[12pt, titlepage]{article}
+
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{hyperref}
+\usepackage{longtable}
+\hypersetup{
+    colorlinks,
+    citecolor=blue,
+    filecolor=black,
+    linkcolor=red,
+    urlcolor=blue
+}
+\usepackage[round]{natbib}
+
+\input{../Comments}
+\input{../Common}
+
+\begin{document}
+
+\title{System Verification and Validation Plan for Truss} 
+\author{Ting-Yu Wu}
+\date{\today}
+	
+\maketitle
+
+\pagenumbering{roman}
+
+\section{Revision History}
+
+\begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
+\toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
+October 29,~2020 & 1.0 & Initial version of VnV plan\\
+\bottomrule
+\end{tabularx}
+
+\newpage
+
+\tableofcontents
+
+\listoftables
+
+\listoffigures
+
+\newpage
+
+\section{Symbols, Abbreviations and Acronyms}
+
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{l l} 
+  \toprule		
+  \textbf{symbol} & \textbf{description}\\
+  \midrule 
+  FR & Functional Requirements\\
+  NFR & Nonfunctional Requirements\\
+  R & Requirements\\
+  SRS & Software Requirements Specification\\
+  VnV & Verification and Validation\\
+  \bottomrule
+\end{tabular}\\
+
+
+\newpage
+
+\pagenumbering{arabic}
+
+This document provides an overview of the Verification and Validation (VnV) 
+plan for Truss. The general information is introduced in section \ref{Geninf}. 
+Verification plans and test description are in section \ref{verplan} and 
+section \ref{sysdescript}, respectively.
+
+\section{General Information} \label{Geninf}
+
+\subsection{Summary}
+
+The software being test in this document is Truss. Users can input the external 
+force and the structure of the truss, the software will calculate all the 
+internal forces within truss members and ouput the result with a .txt file. 
+
+
+\subsection{Objectives}
+The objective of the VnV plan is to verify the FR and NFR described in the SRS. 
+We will test all the functional requirements and nonfunctional requirements in 
+Section \ref{sysdescript}. The most important goals are building confidence 
+in the software correctness and increasing the reliability of the software. 
+
+\subsection{Relevant Documentation}
+
+\begin{itemize}
+	\item 
+	\href{https://github.com/tingyuw/cas741/blob/master/docs/SRS/SRS.pdf}{SRS} 
+	for Truss
+\end{itemize}
+\an{Other documents will be included after building}
+
+
+\section{Plan} \label{verplan}
+This section lists the VnV plan of Truss. Section \ref{VnVteam} introduces the 
+members of the VnV team. Verification plans of SRS, design, and implementation 
+are covered in section \ref{SRSplan}, section \ref{designplan}, and section 
+\ref{implplan}, respectively. Section \ref{autotool} outlines the tools that 
+are used for automated testing. Section \ref{sftwareplan} outlines the 
+validation plan of the software.
+
+\subsection{Verification and Validation Team} \label{VnVteam}
+This section lists the members of verification and validation team.
+\begin{itemize}
+	\item Ting-Yu Wu
+	\item Dr. Spencer Smith
+	\item Dr. Jacques Carette
+	\item Tiago de Moraes Machado reviews the whole project
+	\item Xuanming Yan reviews the SRS
+	\item Mohamed AbuElAla reviews the VnV plan
+\end{itemize}
+
+\subsection{SRS Verification Plan} \label{SRSplan}
+The SRS can be reviewed by the author's supervisors and classmates from the 
+class. Reviewers can give feedbacks and revision suggestions to the author by 
+creating issues on GitHub. It is author's responsibility to check the submitted 
+issues regularly and make necessary revisions.
+
+\subsection{Design Verification Plan} \label{designplan}
+The design of this software will be verified by testing functional requirements 
+and nonfunctional requirements. Test cases for functional requirements are 
+listed in section \ref{testfr}, and test cases for nonfunctional requirements 
+are listed in section \ref{testnfr}.
+
+\subsection{Implementation Verification Plan} \label{implplan}
+The implementation verification plan includes the followings:
+\begin{itemize}
+	\item Code walkthroughs. The rubber duck testing method will be 
+	implemented. The procedure involve explaining the code line by line to the 
+	duck and go into detail of what the code is supposed to do. 
+	\item Expert review. This verification will be performed by individuals in 
+	the verification and validation team, as listed in section \ref{VnVteam}, 
+	by paying close attention and looking for potential implementation errors. 
+	\item Unit testing. Tool we used for unit testing is PyUnit, the python 
+	unit testing framework. More details are outlined in section 
+	\ref{unitdescript}.
+\end{itemize}
+
+\subsection{Automated Testing and Verification Tools} \label{autotool}
+We implement PyUnit for automated unit testing. 
+
+\an{More details and tools will be included later}\\
+\wss{What tools are you using for automated testing.  Likely a unit testing
+  framework and maybe a profiling tool, like ValGrind.  Other possible tools
+  include a static analyzer, make, continuous integration tools, test coverage
+  tools, etc.  Explain your plans for summarizing code coverage metrics.
+  Linters are another important class of tools.  For the programming language
+  you select, you should look at the available linters.  There may also be tools
+  that verify that coding standards have been respected, like flake9 for
+  Python.}
+\wss{The details of this section will likely evolve as you get closer to the
+  implementation.}
+
+\subsection{Software Validation Plan} \label{sftwareplan}
+The software will be validated by testing the correctness of outputs, which is 
+covered in section \ref{outverify}.
+
+\section{System Test Description} \label{sysdescript}
+	
+\subsection{Tests for Functional Requirements} \label{testfr}
+The functional requirements are described in the SRS. Truss shall verify that 
+the inputs are valid and the calculated outputs are correct.
+FR1 and FR2 will be tested in section \ref{inverify}. FR3 and FR4 will be 
+tested in section \ref{outverify}.
+
+\subsubsection{Input Verification} \label{inverify}
+According to FR1 and FR2 in the SRS, Truss shall take inputs from users and 
+verify whether the inputs meet the data constraints, as described in the 
+section 4.2.6 in SRS. If the input values are incorrect or out of bounds, the 
+software shall display an error message.
+		
+\paragraph{Input Verification test}
+
+\begin{enumerate}
+
+\item{Valid inputs\\}
+
+Control: Automatic
+
+Initial State: Truss is started and running
+
+Input: $F_1 = 500$, $x_1 = 3$, $x_2 = 7$, $\theta_1 = 30$, $\theta_2 = 30$
+
+Output: Generate an output file and display a success message
+
+Test Case Derivation: Successfully generate an output file
+
+How test will be performed: Automated system test
+
+\item{Invalid distance\\}
+
+Control: Automatic
+					
+Initial State: Truss is started and running
+					
+Input: $x_1 = 0$ ; $x_1 = -3$ ; $x_2 = 0$ ; $x_2 = -3$
+					
+Output: An error message of "Please input positive value for the distance"
+
+Test Case Derivation: Successfully display the error message
+
+How test will be performed: Automated system test
+
+\item{Invalid angle\\}
+
+Control: Automatic
+
+Initial State: Truss is started and running
+
+Input: $\theta_1 = 0$ ; $\theta_1 = 90$ ; $\theta_1 = -45$ ; $\theta_2 = 0$ ; 
+$\theta_2 = 90$ ; $\theta_2 = -45$
+
+Output: An error message of "Please input the value greater than 0 and less 
+than 90 for the angle"
+
+Test Case Derivation: Successfully display the error message
+
+How test will be performed: Automated system test
+
+\end{enumerate}
+\an{More specific input cases will be included later.}
+
+\subsubsection{Output Verification} \label{outverify}
+According to FR3 and FR4 in the SRS, Truss shall calculate equations and output 
+the correct values for all internal forces. 
+
+\paragraph{Output Correctness test}
+
+\begin{enumerate}
+	
+	\item{Simple case\\}
+	
+	Control: Automatic
+	
+	Initial State: Not applicable
+	
+	Input: $F_1 = 500$, $x_1 = 3$, $x_2 = 7$, $\theta_1 = 30$, $\theta_2 = 30$
+	
+	Output: $F_{AC} = -700$, $F_{AD} = 606.22$, $F_{BC} = -300$, $F_{BD} = 
+	259.81$, $F_{CD} = 500$
+	
+	Test Case Derivation: Successfully calculate the expected outputs
+	
+	How test will be performed: Automated system test
+	
+	\item{Correctness of output file\\}
+	
+	Control: Automatic
+	
+	Initial State: Not applicable
+	
+	Input: the output file
+	
+	Output: the relative error between each value at each time step
+	
+	Test Case Derivation: Successfully calculate the expected outputs
+	
+	How test will be performed: Automated system test
+\end{enumerate}
+
+\subsection{Tests for Nonfunctional Requirements} \label{testnfr}
+The nonfunctional requirements are described in the SRS. All the qualities of 
+Truss will be tested in the following section. Some requirements can be 
+measured by the grade sheet, such as table \ref{Undgradesheet} for 
+understandability. In some cases a superscript * is used to indicate 
+that a response of this type should be accompanied by explanatory 
+text~\cite{Smithetal2018}.\\
+NFR1 correctness and NFR2 verifiability will be tested in section \ref{candv}. 
+NFR3 understandability, NFR4 portability, NFR5 maintainability, and NFR6 
+reliability will be tested in section \ref{under}, section \ref{port}, section 
+\ref{main}, and section \ref{reliab}, respectively.
+
+
+\subsubsection{Correctness and Verifiability} \label{candv}
+The correctness test covers the NFR1, and the verifiability test covers the
+NFR2. Both tests are to ensure that the software meets the SRS, and they can 
+be assess through this document.
+		
+\subsubsection{Understandablility} \label{under}
+The understandability test covers the NFR3.
+\paragraph{Understandablility test}
+
+\begin{enumerate}
+
+\item{Code review\\}
+
+Type: Manual
+					
+Initial State: Not applicable
+					
+Input/Condition: Review the source code
+					
+Output/Result: How easy can a new developer understand the source code
+					
+How test will be performed: Understandability can be measured by the grade 
+sheet in Table \ref{Undgradesheet}
+
+\end{enumerate}
+
+\begin{longtable}{l l}
+	\begin{tabular}{l l} 
+	\toprule		
+	\textbf{Questions} & \textbf{Answer set}\\
+	\midrule 
+	Consistent indentation and formatting style? & \{yes, no, n/a\}\\
+	Explicit identification of a coding standard? & \{yes*, no, n/a\}\\
+	Are the code identifiers consistent, distinctive, and meaningful? & \{yes, 
+	no*, n/a\} \\
+	Are constants (other than 0 and 1) hard-coded into the program? & \{yes, 
+	no*, n/a\} \\
+	Comments are clear, indicate what is being done, not how? & \{yes, no*, 
+	n/a\} \\
+	Is the name/URL of any algorithms used mentioned? & \{yes, no*, n/a\} \\
+	Parameters are in the same order for all functions? & \{yes, no*, n/a\} \\
+	Is code modularized? & \{yes, no*, n/a\} \\
+	Descriptive names of source code files? & \{yes, no*, n/a\} \\
+	Is a design document provided? & \{yes*, no, n/a\} \\
+	Overall impression? & \{1 .. 10\} \\
+	\bottomrule
+	\caption{Understandability grade sheet} \label{Undgradesheet} \\
+\end{tabular}\\
+\end{longtable}
+
+\subsubsection{Portablility} \label{port}
+The portability test covers the NFR4.
+\paragraph{Portablility test}
+
+\begin{enumerate}
+	
+	\item{Portability on Windows system\\}
+	
+	Type: Manual
+	
+	Initial State: Truss has been successfully installed on a Windows system
+	
+	Input/Condition: Perform basic functions of the software
+	
+	Output/Result: Successfully perform the functions
+	
+	How test will be performed: Portability can be measured by the grade 
+	sheet in Table \ref{Porgradesheet}. It will be performed by test team 
+	manually
+	
+	\item{Portability on Linux system\\}
+	
+	Type: Manual
+	
+	Initial State: Truss has been successfully installed on a Linux system
+	
+	Input/Condition: Perform basic functions of the software
+	
+	Output/Result: Successfully perform the functions
+	
+	How test will be performed: Portability can be measured by the grade 
+	sheet in Table \ref{Porgradesheet}. It will be performed by test team 
+	manually
+	
+		
+	\item{Portability on MacOS system\\}
+	
+	Type: Manual
+	
+	Initial State: Truss has been successfully installed on a MacOS system
+	
+	Input/Condition: Perform basic functions of the software
+	
+	Output/Result: Successfully perform the functions
+	
+	How test will be performed: Portability can be measured by the grade 
+	sheet in Table \ref{Porgradesheet}. It will be performed by test team 
+	manually
+	
+	\begin{longtable}{l l}
+		\begin{tabular}{l l} 
+			\toprule		
+			\textbf{Questions} & \textbf{Answer set}\\
+			\midrule 
+			What platforms is the software advertised to work on? & \{Type of 
+			OS\}\\
+			Are special steps taken in the source code to handle portability? & 
+			\{yes*, no, n/a\}\\
+			Is portability explicitly identified as NOT being important? & 
+			\{yes, no, n/a\} \\
+			Convincing evidence that portability has been achieved? & 
+			\{yes*, no,\} \\		
+			Overall impression? & \{1 .. 10\} \\
+			\bottomrule
+			\caption{Portability grade sheet} \label{Porgradesheet} \\
+		\end{tabular}\\
+	\end{longtable}
+
+\end{enumerate}
+
+\subsubsection{Maintainability} \label{main}
+The maintainability test covers the NFR5.
+\paragraph{Maintainability test}
+
+\begin{enumerate}
+	
+	\item{Version control\\}
+	
+	Type: Manual
+	
+	Initial State: Not applicable
+	
+	Input/Condition: Existing Truss system
+	
+	Output/Result: Exist multiple versions of the system
+	
+	How test will be performed: Test team will perform manually to 
+	check whether there exists a history of multiple versions of the software
+	
+	\item{Issue tracking\\}
+	
+	Type: Manual
+	
+	Initial State: Not applicable
+	
+	Input/Condition: Existing Truss system
+	
+	Output/Result: Implementing issue tracking tools
+	
+	How test will be performed:  Test team will perform manually to 
+	check whether a issue tracking tool is implemented
+	
+\end{enumerate}
+
+\subsubsection{Reliability} \label{reliab}
+The reliability test covers the NFR6.
+\paragraph{Reliability test}
+
+\begin{enumerate}
+	
+	\item{Software running\\}
+	
+	Type: Manual
+	
+	Initial State: Not applicable
+	
+	Input/Condition: Existing Truss system
+	
+	Output/Result: Successfully operate the software
+	
+	How test will be performed: Test team will run the software manually to 
+	check whether it breaks during installation and operation
+	
+	\item{Performance time\\}
+	
+	Type: Manual
+	
+	Initial State: Not applicable
+	
+	Input/Condition: Truss is started and running
+	
+	Output/Result: Time duration of the software to perform required functions
+	
+	How test will be performed: The test will be performed by test team manually
+	
+\end{enumerate}
+
+\subsection{Traceability Between Test Cases and Requirements}
+
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+		\hline
+		& R1 & R2 & R3 & R4 & R5 & R6 & R7 & R8 & R9 & R10\\
+		\hline
+		\ref{inverify}    &X &X & & & &X & & & &\\ \hline
+		\ref{outverify}   & & &X &X &X &X & & & &\\ \hline
+		\ref{candv}       & & & & &X &X & & & &\\ \hline
+		\ref{under}       & & & & & & &X & & &\\ \hline
+		\ref{port}        & & & & & & & &X & &\\ \hline
+		\ref{main}        & & & & & & & & &X &\\ \hline
+		\ref{reliab}      & & & & & & & & & &X\\ \hline
+	\end{tabular}
+	\caption{Traceability Between Test Cases and Requirements}
+	\label{Table:A_trace}
+\end{table}
+
+
+
+
+
+\section{Unit Test Description} \label{unitdescript}
+
+\wss{Reference your MIS and explain your overall philosophy for test case
+  selection.}  
+\wss{This section should not be filled in until after the MIS has
+  been completed.}
+
+\subsection{Unit Testing Scope}
+
+\wss{What modules are outside of the scope.  If there are modules that are
+  developed by someone else, then you would say here if you aren't planning on
+  verifying them.  There may also be modules that are part of your software, but
+  have a lower priority for verification than others.  If this is the case,
+  explain your rationale for the ranking of module importance.}
+
+\subsection{Tests for Functional Requirements}
+
+\wss{Most of the verification will be through automated unit testing.  If
+  appropriate specific modules can be verified by a non-testing based
+  technique.  That can also be documented in this section.}
+
+\subsubsection{Module 1}
+
+\wss{Include a blurb here to explain why the subsections below cover the module.
+  References to the MIS would be good.  You will want tests from a black box
+  perspective and from a white box perspective.  Explain to the reader how the
+  tests were selected.}
+
+\begin{enumerate}
+
+\item{test-id1\\}
+
+Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
+  be automatic}
+					
+Initial State: 
+					
+Input: 
+					
+Output: \wss{The expected result for the given inputs}
+
+Test Case Derivation: \wss{Justify the expected value given in the Output field}
+
+How test will be performed: 
+					
+\item{test-id2\\}
+
+Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
+  be automatic}
+					
+Initial State: 
+					
+Input: 
+					
+Output: \wss{The expected result for the given inputs}
+
+Test Case Derivation: \wss{Justify the expected value given in the Output field}
+
+How test will be performed: 
+
+\item{...\\}
+    
+\end{enumerate}
+
+\subsubsection{Module 2}
+
+...
+
+\subsection{Tests for Nonfunctional Requirements}
+
+\wss{If there is a module that needs to be independently assessed for
+  performance, those test cases can go here.  In some projects, planning for
+  nonfunctional tests of units will not be that relevant.}
+
+\wss{These tests may involve collecting performance data from previously
+  mentioned functional tests.}
+
+\subsubsection{Module ?}
+		
+\begin{enumerate}
+
+\item{test-id1\\}
+
+Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
+  be automatic}
+					
+Initial State: 
+					
+Input/Condition: 
+					
+Output/Result: 
+					
+How test will be performed: 
+					
+\item{test-id2\\}
+
+Type: Functional, Dynamic, Manual, Static etc.
+					
+Initial State: 
+					
+Input: 
+					
+Output: 
+					
+How test will be performed: 
+
+\end{enumerate}
+
+\subsubsection{Module ?}
+
+...
+
+\subsection{Traceability Between Test Cases and Modules}
+
+\wss{Provide evidence that all of the modules have been considered.}
+				
+\newpage
+
+\bibliographystyle {plainnat}
+\bibliography {ref}
+
+%\newpage
+
+
+%\section{Appendix}
+
+%This is where you can place additional information.
+
+%\subsection{Symbolic Parameters}
+
+%The definition of the test cases will call for SYMBOLIC\_CONSTANTS.
+%Their values are defined in this section for easy maintenance.
+
+%\subsection{Usability Survey Questions?}
+
+%\wss{This is a section that would be appropriate for some projects.}
+
+
+\end{document}
