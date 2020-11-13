@@ -68,6 +68,8 @@
 \newcommand{\iref}[1]{IM\ref{#1}}
 \newcounter{reqnum} %Requirement Number
 \newcommand{\rthereqnum}{P\thereqnum}
+\newcounter{nonreqnum} %Nonfunctionalrequirement Number
+\newcommand{\rthenonreqnum}{P\thenonreqnum}
 \newcommand{\rref}[1]{R\ref{#1}}
 \newcounter{lcnum} %Likely change number
 \newcommand{\lthelcnum}{LC\thelcnum}
@@ -139,6 +141,8 @@ their units. The symbols are listed in alphabetical order.
 \noindent \begin{longtable*}{l l p{12cm}} \toprule
 \textbf{symbol} & \textbf{unit} & \textbf{description}\\
 \midrule 
+$d_{\text{max}}$ & \si{\metre} & Maximum value for distance \\
+$d_{\text{min}}$ & \si{\metre} & Minimum value for distance \\
 $F_\text{Ax}$ & \si{\newton} & x-component of reaction force on joint A \\
 $F_\text{Ay}$ & \si{\newton} & y-component of reaction force on joint A \\ 
 $F_\text{By}$ & \si{\newton} & y-component of reaction force on joint B \\
@@ -147,6 +151,8 @@ $F_\text{BC}$ & \si{\newton} & Force on truss member 2 \\
 $F_\text{AD}$ & \si{\newton} & Force on truss member 3 \\
 $F_\text{BD}$ & \si{\newton} & Force on truss member 4 \\
 $F_\text{CD}$ & \si{\newton} & Force on truss member 5 \\
+$F_{\text{max}}$ & \si{\newton} & Maximum value for external force \\
+$F_{\text{min}}$ & \si{\newton} & Minimum value for external force \\
 $F_\text{out}$ & \si{\newton} & All the output forces mentioned in the 
 document. \\
 $F_\text{xi}$ & \si{\newton} & Force component in the x direction of joint i \\
@@ -159,6 +165,8 @@ $x_\text{1}$ & \si{\meter} & Distance from joint A to joint D \\
 $x_\text{2}$ & \si{\meter} & Distance from joint D to joint B \\
 $\theta_\text{1}$ & \si{\radian} & Angle between member 1 and 3 \\
 $\theta_\text{2}$ & \si{\radian} & Angle between member 2 and 4 \\
+$\theta_{\text{max}}$ & \si{\radian} & Maximum value for angle \\
+$\theta_{\text{min}}$ & \si{\radian} & Minimum value for angle \\
 \bottomrule
 \end{longtable*}
 
@@ -175,6 +183,7 @@ $\theta_\text{2}$ & \si{\radian} & Angle between member 2 and 4 \\
   GS & Goal Statement\\
   IM & Instance Model\\
   LC & Likely Change\\
+  NFR & Nonfunctional Requirement\\
   PS & Physical System Description\\
   R & Requirement\\
   SRS & Software Requirements Specification\\
@@ -295,10 +304,11 @@ There are no system constraints.
 
 \section{Specific System Description}
 
-This section first presents the problem description, which gives a high-level
-view of the problem to be solved.  This is followed by the solution characteristics
-specification, which presents the assumptions, theories, definitions and finally
-the instance models.  
+This section first presents the problem desciption (Section \ref{Sec_pd}), 
+which gives a high-level view of the problem to be solved.  This is followed by 
+the solution characteristics specification (Section \ref{Sec_solcharspec}), 
+which presents the assumptions, theories, definitions and finally the instance 
+models.  
 
 \subsection{Problem Description} \label{Sec_pd}
 
@@ -312,26 +322,26 @@ easier to correctly understand the requirements:
 
 \begin{itemize}
 	
-	\item Compression: The force that squeezes materials together.
+	\item Compression: the force that squeezes materials together.
 	
 \end{itemize}
 
 \begin{itemize}
 	
-	\item Equilibrium: The state of an object in which all the forces acting 
-	upon it are balanced. 
+	\item Force equilibrium: a body is in force equilibrium if the sum of all 
+	the forces acting on the body is zero. 
 	
 \end{itemize}
 
 \begin{itemize}
 	
-	\item Joint: A place where two trusses are connected.
+	\item Joint: a place where two trusses are connected.
 	
 \end{itemize}
 
 \begin{itemize}
 	
-	\item Method of Joint: A way to find unknown forces in a truss structure. 
+	\item Method of Joint: a way to find unknown forces in a truss structure. 
 	The principle behind this method is that all forces acting on a joint must 
 	add to zero.
 	
@@ -339,35 +349,42 @@ easier to correctly understand the requirements:
 
 \begin{itemize}
 	
-	\item Moment: A measure of its tendency to cause a body to rotate about a 
-	specific point or axis. 
+	\item Moment: moment of a force, also called \textit{torque}, is the 
+	tendency to cause a body to rotate about a 	specific point or axis. 
+	
+\end{itemize}
+
+\begin{itemize}
+	
+	\item Moment equilibrium: a body is in moment equilibrium if the sum of all 
+	the moments of all the forces acting on the body is zero.
 	
 \end{itemize}
 
 \begin{itemize}
 
-\item Pin support: A kind of structural support can have both a horizontal x 
+\item Pin support: a kind of structural support can have both a horizontal x 
 direction force and a vertical y direction force.
 
 \end{itemize}
 
 \begin{itemize}
 	
-	\item Reaction force: The force that the support act on the structure to 
-	keep it stationary.
+	\item Reaction force: an external force on a body which is contributed by 
+	its supports or connections.
 	
 \end{itemize}
 
 \begin{itemize}
 	
-	\item Roller support: A kind of structural support can only have a 
+	\item Roller support: a kind of structural support can only have a 
 	vertical y direction force.
 	
 \end{itemize}
 
 \begin{itemize}
 	
-	\item Tension: The force that pulls materials apart.
+	\item Tension: the force that pulls materials apart.
 	
 \end{itemize}
 
@@ -400,16 +417,17 @@ includes the following elements:
 \subsubsection{Goal Statements}\label{sec_goal}
 
 \noindent 
-Given the truss structure and external forces, the goal statement is:
+Given the truss properties and the external force, the goal statement is:
 
 \begin{itemize}
 
 \item[GS\refstepcounter{goalnum}\thegoalnum \label{G_solforce}:] 
 {Solve the internal forces acting on truss members.}
-
+\item[GS\refstepcounter{goalnum}\thegoalnum \label{G_stressdist}:] 
+{Determine the stress distribution for each internal force.}
 \end{itemize}
 
-\subsection{Solution Characteristics Specification}
+\subsection{Solution Characteristics Specification} \label{Sec_solcharspec}
 
 The instance models that govern Truss are presented in 
 Section~\ref{sec_instance}.  The information to understand the meaning of the
@@ -796,14 +814,16 @@ uncertainty quantification exercise.
   \midrule 
   $F_{\text{1}}$ & $F_{\text{1}} > 0$ & $F_{\text{min}} \leq F_{\text{1}} \leq 
   F_{\text{max}}$ & 500 \si{\newton} & 10\%  \\
-  $x_{\text{1}}$ & $x_{\text{1}} > 0$ & $d_{\text{min}} \leq x_{\text{1}} \leq 
+  $x_{\text{1}}$ & $x_{\text{1}} > 0$ & $d_{\text{min}} < x_{\text{1}} \leq 
   d_{\text{max}}$ & 3 \si{\metre} & 10\%  \\
-  $x_{\text{2}}$ & $x_{\text{2}} > 0$ & $d_{\text{min}} \leq x_{\text{2}} \leq 
+  $x_{\text{2}}$ & $x_{\text{2}} > 0$ & $d_{\text{min}} < x_{\text{2}} \leq 
   d_{\text{max}}$ & 7 \si{\metre} & 10\%  \\
-  $\theta_{\text{1}}$ & $0 < \theta_{\text{1}} < \pi $ & $0 < \theta_{\text{1}} 
-  < \frac{\pi}{2}$ & $\frac{\pi}{6}$ \si{\radian} & 10\%  \\
-  $\theta_{\text{2}}$ & $0 < \theta_{\text{2}} < \pi $ & $0 < \theta_{\text{2}} 
-  < \frac{\pi}{2}$ & $\frac{\pi}{6}$ \si{\radian} & 10\%  \\
+  $\theta_{\text{1}}$ & $0 < \theta_{\text{1}} < \pi $ & $ \theta_{\text{min}} 
+  < \theta_{\text{1}} < \theta_{\text{max}}$ & $\frac{\pi}{6}$ \si{\radian} & 
+  10\%  \\
+  $\theta_{\text{2}}$ & $0 < \theta_{\text{2}} < \pi $ & $\theta_{\text{min}} < 
+  \theta_{\text{2}} < \theta_{\text{max}}$ & $\frac{\pi}{6}$ \si{\radian} & 
+  10\%  \\
   \bottomrule
  
 \end{longtable*}
@@ -910,19 +930,30 @@ kind of forces those outputs are from Table~\ref{TblOutputType}.
 \noindent 
 
 \begin{itemize}
-\item Correct: The outputs of the code have the properties described in Section 
+\item [NFR\refstepcounter{nonreqnum}\thenonreqnum \label{NFR_Accuracy}:] 
+\textbf{Accuracy.} The accuracy of the computed solutions should meet the level 
+needed 
+for structural mechanic and have the properties described in Section 
 \ref{sec_CorrectSolution}.
-\item Verifiable: The code is tested with complete verification and validation 
-plan.
-\item Understandable: The code is modularized with complete 
-module guide and module interface specification.
-\item Reusable: The code is modularized. 
-\item Maintainable: The traceability between requirements, assumptions, 
+\item [NFR\refstepcounter{nonreqnum}\thenonreqnum \label{NFR_Verifiability}:]
+\textbf{Verifiablility.}: The code is tested with complete verification and 
+validation plan.
+\item [NFR\refstepcounter{nonreqnum}\thenonreqnum 
+\label{NFR_Understandability}:]
+\textbf{Understandablility.} The code is modularized with complete module 
+guide and module interface specification.
+\item [NFR\refstepcounter{nonreqnum}\thenonreqnum \label{NFR_Portability}:] 
+\textbf{Portability.} The code is able to be run in different environments.
+\item [NFR\refstepcounter{nonreqnum}\thenonreqnum \label{NFR_Maintainability}:]
+\textbf{Maintainability.} The traceability between requirements, assumptions, 
 theoretical models, general definitions, data definitions, instance models, 
 likely changes, unlikely changes, and modules is completely recorded in 
 traceability matrices in the SRS and module guide. 
-\item Portable: The code is able to be run in different environments.
-
+\item [NFR\refstepcounter{nonreqnum}\thenonreqnum \label{NFR_Reliability}:]  
+\textbf{Reliability.} The probability of failure-free software operation 
+for required functions for a specified period of time.
+\item [NFR\refstepcounter{nonreqnum}\thenonreqnum \label{NFR_Usability}:] 
+\textbf{Usability.} The system should be easy to learn and use.
 
 \end{itemize}
 
@@ -931,7 +962,7 @@ This section lists the likely changes to be made to the software.
 \noindent \begin{itemize}
 
 \item[LC\refstepcounter{lcnum}\thelcnum\label{LC_notpinconnect}:] Joints may 
-not connected by pins.[\aref{A_frictionless}]
+not connected by pins. [\aref{A_frictionless}]
 
 \item[LC\refstepcounter{lcnum}\thelcnum\label{LC_weightinclude}:] The 
 software may be changed to consider the weight of the trusses.
@@ -947,13 +978,13 @@ This section lists the unlikely changes to be made to the software.
 \noindent \begin{itemize}
 
 \item[UC\refstepcounter{ucnum}\theucnum\label{UC_sysgoal}:] The goal of the 
-system is to find out the internal forces.
+system is to find out the internal forces. [\gsref{G_solforce}]
 
 \item[UC\refstepcounter{ucnum}\theucnum\label{UC_static}:] The truss structure 
-is statically determinate.
+is statically determinate. [\aref{A_static}]
 
 \item[UC\refstepcounter{ucnum}\theucnum\label{UC_straight}:] The truss members 
-are straight.
+are straight. [\aref{A_straight}]
 
 \end{itemize}
 
@@ -1034,10 +1065,10 @@ the assumptions.
 
 
 \section{Values of Auxiliary Constants}
-This section contains the standard values that are used for calculations in 
-Truss.
+Table~\ref{TblAuxConst} contains the standard values that are used for 
+calculations in Truss.
 
-\begin{table}[!h]
+\begin{table}[h!]
 	\renewcommand{\arraystretch}{1.2}
 	\noindent \begin{longtable*}{l l l l c} 
 		\toprule
@@ -1046,11 +1077,25 @@ Truss.
 		\midrule 
 		$\pi$ & ratio of circumference to diameter for any circle & 3.14159265 
 		& - \\
+		$F_{\text{max}}$ & the maximum value for external force & 100000 & 
+		\si{\newton}\\
+		$F_{\text{min}}$ & the minimum value for external force & -100000 & 
+		\si{\newton}\\
+		$d_{\text{max}}$ & the maximum value for distance & 100000 & 
+		\si{\metre}\\
+		$d_{\text{min}}$ & the minimum value for distance & 0 & 
+		\si{\metre}\\
+		$\theta_{\text{max}}$ & the maximum value for amgle & 90 & 
+		\si{\radian}\\
+		$\theta_{\text{min}}$ & the minimum value for angle & 0 & 
+		\si{\radian}\\
 		\bottomrule		
 	\end{longtable*}
 	\caption{Auxiliary Constants} \label{TblAuxConst}
 \end{table}
+
 \newpage
+\clearpage
 
 
 \bibliographystyle {plainnat}
