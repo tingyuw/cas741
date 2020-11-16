@@ -297,7 +297,7 @@ the output data.
 
 \subsection{User Characteristics} \label{SecUserCharacteristics}
 The end user of Truss should have an understanding of solving equilibrium 
-forces and moments from level 3 mechanical engineering.
+forces and moments from level 1 engineering mechanic.
 
 \subsection{System Constraints}
 There are no system constraints.
@@ -420,6 +420,8 @@ includes the following elements:
 Given the truss properties and the external force, the goal statement is:
 
 \begin{itemize}
+\item[GS\refstepcounter{goalnum}\thegoalnum \label{G_solreactforce}:] 
+{Solve the support reaction forces.}
 
 \item[GS\refstepcounter{goalnum}\thegoalnum \label{G_solforce}:] 
 {Solve the internal forces acting on truss members.}
@@ -445,7 +447,7 @@ likely change [LC], in which the respective assumption is used.
 \begin{itemize}
 	
 \item[A\refstepcounter{assumpnum}\theassumpnum \label{A_static}:]
- The structure is statically determinate. [\tref{T_moj}, \tref{T_mom}]
+ The structure is statically determinate. [\tref{T_staticeq}]
  
 \end{itemize}
 
@@ -489,8 +491,7 @@ likely change [LC], in which the respective assumption is used.
 \begin{itemize}
 	
 	\item[A\refstepcounter{assumpnum}\theassumpnum \label{A_reactionjoint}:]
-	All loads and support reactions are applied at the joints only. 
-	[\tref{T_moj}] 
+	All loads and support reactions are applied at the joints only.  
 	
 \end{itemize}
 
@@ -506,179 +507,34 @@ on.
 \begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
   \hline
   \rowcolor[gray]{0.9}
-  Number& TM\refstepcounter{theorynum}\thetheorynum \label{T_moj}\\
+  Number& TM\refstepcounter{theorynum}\thetheorynum \label{T_staticeq}\\
   \hline
-  Label&\bf Method of Joint\\
+  Label&\bf Static equilibrium\\
   \hline
-  Equation& $ \sum F_{\text{xi}} = 0 $ \\
-  & $ \sum F_{\text{yi}} = 0 $ \\
+  Equation& $\sum F_{\text{xi}} = 0$ \\
+  & $\sum F_{\text{yi}} = 0$ \\
+  & $\sum M_{\text{i}} = 0$\\
   \hline
-  Description & 
-               	 $F_{\text{xi}}$ is the force component in the x direction of 
-               	 joint i.\\
-               	&$F_{\text{yi}}$ is the force component in the y direction of 
-               	joint i.\\
+  Description  
+  & $F_{\text{xi}}$ is the force component in the x direction of joint i.\\
+  & $F_{\text{yi}}$ is the force component in the y direction of joint i.\\
+  & $M_{\text{i}}$ is the moment component of joint i. \\
   \hline
-  Source & \cite{MethodofJoints}\\
+  Source & \cite{MethodofJoints}, \cite{Moment}\\
   % The above web link should be replaced with a proper citation to a publication
   \hline
-  Ref.\ By & -\\
+  Ref.\ By & \aref{A_static}\\
   \hline
 \end{tabular}
 \end{minipage}\\
 
 ~\newline
-
-\noindent
-\begin{minipage}{\textwidth}
-	\renewcommand*{\arraystretch}{1.5}
-	\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
-		\hline
-		\rowcolor[gray]{0.9}
-		Number& TM\refstepcounter{theorynum}\thetheorynum \label{T_mom}\\
-		\hline
-		Label&\bf Equilibrium of moments\\
-		\hline
-		Equation&$ \sum M_{\text{i}} = 0 $ \\
-		\hline
-		Description &$M_{\text{i}}$ is the moment component of joint i. We will 
-		use 
-		moments to find the reaction forces at the supports.\\
-		\hline
-		Source &
-		\cite{Moment}\\
-		% The above web link should be replaced with a proper citation to a 
-		%publication
-		\hline
-		Ref.\ By & \ddref{D_forceAy}, \ddref{D_forceBy}\\
-		\hline
-	\end{tabular}
-\end{minipage}\\
-
-~\newline
-
 \subsubsection{General Definitions}\label{sec_gendef}
 There are no general definitions.
 
 \subsubsection{Data Definitions}\label{sec_datadef}
 
-This section collects and defines all the data needed to build the instance
-models. The dimension of each quantity is also given.  
-
-~\newline
-
-\noindent
-\begin{minipage}{\textwidth}
-	\renewcommand*{\arraystretch}{1.5}
-	\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
-		\hline
-		\rowcolor[gray]{0.9}
-		Number& DD\refstepcounter{datadefnum}\thedatadefnum \label{D_forceAx}\\
-		\hline
-		Label& \bf Support reaction force on joint A in the x direction\\
-		\hline
-		Symbol &$F_{\text{Ax}}$\\
-		\hline
-		% Units& $Mt^{-3}$\\
-		% \hline
-		Units & \text{N} \\
-		\hline
-		Equation&$F_{\text{Ax}} = 0$\\
-		\hline
-		Description &$F_{\text{Ax}}$ is the support reaction force on joint A 
-		in the x direction (N).\\
-		\hline
-		Notes &Because joint A is pinned, there is a reacting force in the x 
-		direction, $F_{\text{Ax}}$. However, there is no other load applied to 
-		this truss has x-component and therefore it must be zero.\\
-		\hline
-		Sources& -\\
-		\hline
-		Ref.\ By & \tref{T_moj}\\
-		\hline
-	\end{tabular}
-\end{minipage}\\
-
-~\newline
-\noindent
-\begin{minipage}{\textwidth}
-	\renewcommand*{\arraystretch}{1.5}
-	\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
-		\hline
-		\rowcolor[gray]{0.9}
-		Number& DD\refstepcounter{datadefnum}\thedatadefnum \label{D_forceAy}\\
-		\hline
-		Label& \bf Support reaction force on joint A in the y direction\\
-		\hline
-		Symbol &$F_{\text{Ay}}$\\
-		\hline
-		% Units& $Mt^{-3}$\\
-		% \hline
-		Units & \text{N} \\
-		\hline
-		Equation&$\sum M_\text{B} = F_\text{1} \cdot x_\text{2} - F_{\text{Ay}} 
-		\cdot ( x_\text{1} + x_\text{2} ) = 0$\\
-		\hline
-		Description &$F_{\text{Ay}}$ is the support reaction force on joint A 
-		in the y direction (N).\\
-			&$F_1$ is the given external force (N).\\
-			&$x_1$ is the distance between joint A and joint D (m).\\
-			&$x_2$ is the distance between joint D and joint B (m).\\
-		\hline
-		Notes & $F_{\text{Ay}}$ contributes a negative moment because it causes 
-		a clockwise moment about B.\\
-			& $F_1$ contributes a positive moment because it causes a 
-		counterclockwise moment about B.\\
-			&$x_1$ and $x_2$ are shown in figure \ref{Fig_PhysicalSystem}.\\
-		\hline
-		Sources& - \\
-		\hline
-		Ref.\ By & \tref{T_mom}\\
-		\hline
-	\end{tabular}
-\end{minipage}\\
-
-~\newline
-
-\noindent
-\begin{minipage}{\textwidth}
-\renewcommand*{\arraystretch}{1.5}
-\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
-\hline
-\rowcolor[gray]{0.9}
-Number& DD\refstepcounter{datadefnum}\thedatadefnum \label{D_forceBy}\\
-\hline
-Label& \bf Support reaction force on joint B in y direction\\
-\hline
-Symbol &$F_{\text{By}}$\\
-\hline
-% Units& $Mt^{-3}$\\
-% \hline
-  Units & \text{N} \\
-  \hline
-  Equation&$\sum M_\text{A} = F_{\text{By}} \cdot ( x_1 + x_2 ) - F_1 \cdot x_1 
-  = 0$\\
-  \hline
-  Description &$F_{\text{By}}$ is the support reaction force on joint B in the 
-  y direction (N).\\
-  			  &$F_1$ is the given external force (N).\\
-              &$x_1$ is the distance between point A and point D (m).\\
-              &$x_2$ is the distance between point D and point B (m).\\
-  \hline
-  Notes & $F_{\text{By}}$ contributes a positve moment because it causes a 
-  counterclockwise moment about A.\\
-  & $F_1$ contributes a negative moment because it causes a clockwise moment 
-  about B.\\
-  		&$x_1$ and $x_2$ are shown in figure \ref{Fig_PhysicalSystem}. \\
-  \hline
-  Sources& - \\
-  \hline
-  Ref.\ By & \tref{T_mom}\\
-  \hline
-\end{tabular}
-\end{minipage}\\
-
-
+There are no data definitions.
 
 \subsubsection{Instance Models} \label{sec_instance}    
 
@@ -700,6 +556,121 @@ The goal \gsref{G_solforce} is met by \iref{I_solveA}, \iref{I_solveB}, and
 	\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
 		\hline
 		\rowcolor[gray]{0.9}
+		Number& IM\refstepcounter{instnum}\theinstnum \label{I_solveFax}\\
+		\hline
+		Label& \bf Support reaction force on joint A in the x direction\\
+		\hline
+		Input& - \\
+		\hline
+		Output& $F_{\text{{Ax}}}$ \\
+		\hline
+		Equation& $F_{\text{Ax}} = 0$ \\
+		\hline
+		Description&$F_{\text{Ax}}$ is the support reaction force on joint A 
+		in the x direction (N). \\
+		\hline
+		Notes& Because joint A is pinned, there is a reacting force in the x 
+		direction, $F_{\text{Ax}}$. We apply the static equilibrium to slove 
+		the reaction force, since $\sum F_{\text{x}} = 0$, $F_{\text{Ax}} = 
+		0$. 
+		\\
+		\hline
+		Sources& - \\
+		\hline
+		Ref.\ By & \aref{A_frictionless}, \tref{T_staticeq} \\
+		\hline
+	\end{tabular}
+\end{minipage}\\
+
+~\newline
+
+\noindent
+\begin{minipage}{\textwidth}
+	\renewcommand*{\arraystretch}{1.5}
+	\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+		\hline
+		\rowcolor[gray]{0.9}
+		Number& IM\refstepcounter{instnum}\theinstnum \label{I_solveFay}\\
+		\hline
+		Label& \bf Support reaction force on joint A in the y direction\\
+		\hline
+		Input& $F_\text{1}$, $x_\text{1}$, $x_\text{2}$ \\
+		\hline
+		Output& $F_{\text{{Ay}}}$ \\
+		\hline
+		Equation& $F_{\text{Ay}} = F_\text{1} \cdot x_\text{2} / (x_\text{1} + 
+		x_\text{2})$ \\
+		\hline
+		Description&$F_{\text{Ay}}$ is the support reaction force on joint A 
+		in the y direction (N).\\
+		&$F_1$ is the given external force (N).\\
+		&$x_1$ is the distance between joint A and joint D (m).\\
+		&$x_2$ is the distance between joint D and joint B (m).\\
+		\hline
+		Notes& The equation is from $\sum M_{\text{B}} = F_\text{1} \cdot 
+		x_\text{2} - F_{\text{Ay}} \cdot (x_\text{1} + x_\text{2}) = 0$. \\
+		&$F_{\text{Ay}}$ contributes a negative moment because it causes a 
+		clockwise moment about B. \\
+		&$F_1$ contributes a positive moment because it causes a 
+		counterclockwise moment about B.\\
+		&$x_1$ and $x_2$ are shown in figure \ref{Fig_PhysicalSystem}.\\
+		\hline
+		Sources& - \\
+		\hline
+		Ref.\ By & \aref{A_frictionless}, \tref{T_staticeq} \\
+		\hline
+	\end{tabular}
+\end{minipage}\\
+
+~\newline
+
+\noindent
+\begin{minipage}{\textwidth}
+	\renewcommand*{\arraystretch}{1.5}
+	\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+		\hline
+		\rowcolor[gray]{0.9}
+		Number& IM\refstepcounter{instnum}\theinstnum \label{I_solveFby}\\
+		\hline
+		Label& \bf Support reaction force on joint B in the y direction\\
+		\hline
+		Input& $F_\text{1}$, $x_\text{1}$, $x_\text{2}$ \\
+		\hline
+		Output& $F_{\text{{By}}}$ \\
+		\hline
+		Equation& $F_{\text{By}} = F_\text{1} \cdot x_\text{1} / (x_\text{1} + 
+		x_\text{2})$ \\
+		\hline
+		Description&$F_{\text{By}}$ is the support reaction force on joint B in 
+		the y direction (N).\\
+		&$F_1$ is the given external force (N).\\
+		&$x_1$ is the distance between point A and point D (m).\\
+		&$x_2$ is the distance between point D and point B (m).\\
+		\hline
+		Notes&The equation is from $\sum M_{\text{A}} = F_{\text{By}} \cdot 
+		(x_\text{1} + x_\text{2}) - F_\text{1} \cdot x_\text{1} = 0$. \\
+		& $F_{\text{By}}$ contributes a positve moment because it causes a 
+		counterclockwise moment about A.\\
+		& $F_1$ contributes a negative moment because it causes a clockwise 
+		moment 
+		about B.\\
+		&$x_1$ and $x_2$ are shown in figure \ref{Fig_PhysicalSystem}. \\
+		\hline
+		Sources& - \\
+		\hline
+		Ref.\ By & \aref{A_frictionless}, \tref{T_staticeq} \\
+		\hline
+	\end{tabular}
+\end{minipage}\\
+
+~\newline
+
+\noindent
+\begin{minipage}{\textwidth}
+	\renewcommand*{\arraystretch}{1.5}
+	\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+		\hline
+		\rowcolor[gray]{0.9}
 		Number& IM\refstepcounter{instnum}\theinstnum \label{I_solveA}\\
 		\hline
 		Label& \bf Solving for internal forces at point A\\
@@ -708,10 +679,8 @@ The goal \gsref{G_solforce} is met by \iref{I_solveA}, \iref{I_solveB}, and
 		\hline
 		Output& $F_{\text{{AC}}}$, $F_{\text{{AD}}}$ \\
 		\hline
-		Equation& $\sum F_\text{y} = F_{\text{Ay}} + F_{\text{{AC}}} \cdot $ 
-		sin $\theta_1 = 0$ \\
-		&$\sum F_\text{x} = F_{\text{{AD}}} + F_{\text{{AC}}} \cdot $ cos 
-		$\theta_1 = 0$ \\
+		Equation& $F_{\text{{AC}}} = -F_{\text{Ay}} /$ sin $\theta_1$ \\
+		&$F_{\text{{AD}}} = -F_{\text{{AC}}} \cdot$ cos $\theta_1$ \\
 		\hline
 		Description&$F_{\text{{AC}}}$ is the force in truss 1 (N).\\
 		&$F_{\text{{AD}}}$ is the force in truss 3 (N).\\
@@ -719,9 +688,14 @@ The goal \gsref{G_solforce} is met by \iref{I_solveA}, \iref{I_solveB}, and
 		direction (N).\\		
 		&$\theta_1$ is the angle between truss 1 and truss 3 (\si{\radian}).\\
 		\hline
+		Notes& $\sum F_{\text{y}} = F_{\text{Ay}} + F_{\text{{AC}}} \cdot$ sin 
+		$\theta_1 = 0$\\
+		&$\sum F_{\text{x}} = F_{\text{AD}} + F_{\text{{AC}}} \cdot$ cos 
+		$\theta_1 = 0$\\
+		\hline
 		Sources& - \\
 		\hline
-		Ref.\ By & \tref{T_moj}, \ddref{D_forceAy} \\
+		Ref.\ By & \tref{T_staticeq} \\
 		\hline
 	\end{tabular}
 \end{minipage}\\
@@ -742,10 +716,8 @@ The goal \gsref{G_solforce} is met by \iref{I_solveA}, \iref{I_solveB}, and
 		\hline
 		Output& $F_{\text{{BC}}}$, $F_{\text{{BD}}}$\\
 		\hline
-		Equation& $\sum F_\text{y} = F_{\text{By}} + F_{\text{{BC}}} \cdot $ 
-		sin $\theta_2 = 0$ \\
-		&$\sum F_\text{x} = F_{\text{{BD}}} + F_{\text{{BC}}} \cdot $ cos 
-		$\theta_2 = 0$ \\
+		Equation& $F_{\text{{BC}}} = -F_{\text{By}} /$ sin $\theta_2$ \\
+		&$F_{\text{{BD}}} = -F_{\text{{BC}}} \cdot$ cos $\theta_2$ \\
 		\hline
 		Description&$F_{\text{{BC}}}$ is the force in truss 2 (N).\\
 		&$F_{\text{{BD}}}$ is the force in truss 4 (N).\\
@@ -753,9 +725,14 @@ The goal \gsref{G_solforce} is met by \iref{I_solveA}, \iref{I_solveB}, and
 		direction (N).\\	
 		&$\theta_2$ is the angle between truss 2 and truss 4 (\si{\radian}).\\
 		\hline
+		Notes& $\sum F_{\text{y}} = F_{\text{By}} + F_{\text{{BC}}} \cdot$ sin 
+		$\theta_2 = 0$\\
+		&$\sum F_{\text{x}} = F_{\text{BD}} + F_{\text{{BC}}} \cdot$ cos 
+		$\theta_2 = 0$\\
+		\hline
 		Sources& - \\
 		\hline
-		Ref.\ By & \tref{T_moj}, \ddref{D_forceBy}\\
+		Ref.\ By & \tref{T_staticeq}\\
 		\hline
 	\end{tabular}
 \end{minipage}\\
@@ -776,14 +753,16 @@ The goal \gsref{G_solforce} is met by \iref{I_solveA}, \iref{I_solveB}, and
 		\hline
 		Output& $F_{\text{{CD}}}$ \\
 		\hline
-		Equation&$\sum F_\text{y} = F_{\text{{CD}}} - F_1 = 0$ \\
+		Equation&$F_{\text{{CD}}} = F_1$ \\
 		\hline
 		Description&$F_{\text{{CD}}}$ is the force in truss 5 (N).\\
 		&$F_1$ is the given external force (N).\\
 		\hline
+		Notes& $\sum F_{\text{y}} = F_{\text{CD}} - F_1 = 0$\\
+		\hline
 		Sources& - \\
 		\hline
-		Ref.\ By & \tref{T_moj}\\
+		Ref.\ By & \tref{T_staticeq}\\
 		\hline
 	\end{tabular}
 \end{minipage}\\
@@ -883,7 +862,8 @@ mentioned in Section \ref{sec_DataConstraints}. If any of the input values are
 out of bounds, an error message is displayed and the calculations stop.
 
 \item[R\refstepcounter{reqnum}\thereqnum \label{R_Calculate}:] Calculate 
-equilibrium equations on all joints in both the x and y direction.
+equilibrium equations on all joints in both the x and y direction via 
+\iref{I_solveFax}, \iref{I_solveFay}, and \iref{I_solveFby}.
 
 \item[R\refstepcounter{reqnum}\thereqnum \label{R_Output}:] Output 
 $F_\text{{AC}}$ and $F_\text{{AD}}$ via \iref{I_solveA}, 
@@ -936,19 +916,17 @@ needed
 for structural mechanic and have the properties described in Section 
 \ref{sec_CorrectSolution}.
 \item [NFR\refstepcounter{nonreqnum}\thenonreqnum \label{NFR_Verifiability}:]
-\textbf{Verifiablility.}: The code is tested with complete verification and 
-validation plan.
+\textbf{Verifiablility.}: The properties of the software should be able to 
+tested easily through verification and validation plan.
 \item [NFR\refstepcounter{nonreqnum}\thenonreqnum 
 \label{NFR_Understandability}:]
-\textbf{Understandablility.} The code is modularized with complete module 
-guide and module interface specification.
+\textbf{Understandablility.} The source code and the design of the software 
+should be easy to understand by a new developer.
 \item [NFR\refstepcounter{nonreqnum}\thenonreqnum \label{NFR_Portability}:] 
-\textbf{Portability.} The code is able to be run in different environments.
+\textbf{Portability.} The software is able to run on different environments, 
+such as Windows, MacOS, and Linux.
 \item [NFR\refstepcounter{nonreqnum}\thenonreqnum \label{NFR_Maintainability}:]
-\textbf{Maintainability.} The traceability between requirements, assumptions, 
-theoretical models, general definitions, data definitions, instance models, 
-likely changes, unlikely changes, and modules is completely recorded in 
-traceability matrices in the SRS and module guide. 
+\textbf{Maintainability.} The software can be modified and improved easily.
 \item [NFR\refstepcounter{nonreqnum}\thenonreqnum \label{NFR_Reliability}:]  
 \textbf{Reliability.} The probability of failure-free software operation 
 for required functions for a specified period of time.
@@ -1003,19 +981,18 @@ the assumptions.
 
 \begin{table}[h!]
 \centering
-\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
 \hline        
-	& \tref{T_moj}& \tref{T_mom}& \ddref{D_forceAx}& \ddref{D_forceAy} & 
-	\ddref{D_forceBy}& \iref{I_solveA}& \iref{I_solveB}& \iref{I_solveD} \\
+	& \tref{T_staticeq}& \iref{I_solveFax}& \iref{I_solveFay}& 
+	\iref{I_solveFby} & \iref{I_solveA}& \iref{I_solveB}& \iref{I_solveD} \\
 \hline
-\tref{T_moj}      & & & & & & & & \\ \hline
-\tref{T_mom}      & & & & & & & & \\ \hline
-\ddref{D_forceAx} &X & & & & & & & \\ \hline
-\ddref{D_forceAy} & &X & & & & & & \\ \hline
-\ddref{D_forceBy} & &X & & & & & &  \\ \hline
-\iref{I_solveA}   &X & & &X & & & & \\ \hline
-\iref{I_solveB}   &X & & & &X & & & \\ \hline
-\iref{I_solveD}   &X & & & & & & & \\ \hline
+\tref{T_staticeq} & & & & & & & \\ \hline
+\iref{I_solveFax} &X & & & & & & \\ \hline
+\iref{I_solveFay} &X & & & & & & \\ \hline
+\iref{I_solveFby} &X & & & & & & \\ \hline
+\iref{I_solveA}   &X & &X & & & & \\ \hline
+\iref{I_solveB}   &X & & &X & & & \\ \hline
+\iref{I_solveD}   &X & & & & & & \\ \hline
 \end{tabular}
 \caption{Traceability Matrix Showing the Connections Between Items of Different Sections}
 \label{Table:trace}
@@ -1025,14 +1002,14 @@ the assumptions.
 \centering
 \begin{tabular}{|c|c|c|c|c|c|c|c|}
 \hline
-	& \iref{I_solveA}& \iref{I_solveB}& \iref{I_solveD}& 
-	\ref{sec_DataConstraints} \\
+	& \iref{I_solveFax}& \iref{I_solveFay}& \iref{I_solveFby}& \iref{I_solveA}& 
+	\iref{I_solveB}& \iref{I_solveD}& \ref{sec_DataConstraints} \\
 \hline
-\rref{R_Inputs}       & & & &\\ \hline
-\rref{R_InputsCon}    & & & &X\\ \hline
-\rref{R_Calculate}    & & & &\\ \hline
-\rref{R_Output}       &X &X &X &\\ \hline
-\rref{R_AnalyzeOutput}& & & &\\ \hline 
+\rref{R_Inputs}       & & & & & & &\\ \hline
+\rref{R_InputsCon}    & & & & & & &X\\ \hline
+\rref{R_Calculate}    &X &X &X & & & &\\ \hline
+\rref{R_Output}       & & & &X &X &X &\\ \hline
+\rref{R_AnalyzeOutput}& & & & & & &\\ \hline 
 \end{tabular}
 \caption{Traceability Matrix Showing the Connections Between Requirements and Instance Models}
 \label{Table:R_trace}
@@ -1046,14 +1023,13 @@ the assumptions.
 		\aref{A_straight}& \aref{A_weightig}& \aref{A_twoforce}& 
 		\aref{A_reactionjoint} \\
 		\hline
-		\tref{T_moj}            &X & & & & & &X \\ \hline
-		\tref{T_mom}            &X & & & & & & \\ \hline
-		\ddref{D_forceAx}       &X & & & & & &X \\ \hline
-		\ddref{D_forceAy}       &X & & & & & & \\ \hline
-		\ddref{D_forceBy}       &X & & & & & & \\ \hline
-		\iref{I_solveA}         &X & & & & & &X \\ \hline
-		\iref{I_solveB}         &X & & & & & &X \\ \hline
-		\iref{I_solveD}         &X & & & & & &X \\ \hline
+		\tref{T_staticeq}       &X & & & &X & & \\ \hline
+		\iref{I_solveFax}       &X &X & & & & & \\ \hline
+		\iref{I_solveFay}       &X &X & & &X & & \\ \hline
+		\iref{I_solveFby}       &X &X & & &X & & \\ \hline
+		\iref{I_solveA}         &X & & & & &X &X \\ \hline
+		\iref{I_solveB}         &X & & & & &X &X \\ \hline
+		\iref{I_solveD}         &X & & & & &X &X \\ \hline
 		\lcref{LC_notpinconnect}& &X & & & & & \\ \hline
 		\lcref{LC_weightinclude}& & & & &X & & \\ \hline
 		\lcref{LC_otherforce}   & & & & & &X & \\ \hline
@@ -1075,8 +1051,6 @@ calculations in Truss.
 		\textbf{Symbol} & \textbf{Description} & \textbf{Value} & 
 		\textbf{Units} \\
 		\midrule 
-		$\pi$ & ratio of circumference to diameter for any circle & 3.14159265 
-		& - \\
 		$F_{\text{max}}$ & the maximum value for external force & 100000 & 
 		\si{\newton}\\
 		$F_{\text{min}}$ & the minimum value for external force & -100000 & 
