@@ -90,10 +90,11 @@
 
 \section*{Revision History}
 
-\begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
+\begin{tabularx}{\textwidth}{p{3.5cm}p{2cm}X}
 	\toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 	\midrule
 	October 8, 2020 & 1.0 & Initial version of SRS\\
+	November 16, 2020 & 2.0 & Modification according to feedback\\
 	\bottomrule
 \end{tabularx}
 
@@ -153,8 +154,8 @@ $F_\text{BD}$ & \si{\newton} & Force on truss member 4 \\
 $F_\text{CD}$ & \si{\newton} & Force on truss member 5 \\
 $F_{\text{max}}$ & \si{\newton} & Maximum value for external force \\
 $F_{\text{min}}$ & \si{\newton} & Minimum value for external force \\
-$F_\text{out}$ & \si{\newton} & All the output forces mentioned in the 
-document. \\
+$F_\text{out}$ & - & General designation for $F_\text{AC}$, $F_\text{AD}$, 
+$F_\text{BC}$, $F_\text{BD}$, $F_\text{CD}$.\\
 $F_\text{xi}$ & \si{\newton} & Force component in the x direction of joint i \\
 $F_\text{yi}$ & \si{\newton} & Force component in the y direction of joint i \\
 $F_\text{1}$ & \si{\newton} & External force \\
@@ -188,6 +189,7 @@ $\theta_{\text{min}}$ & \si{\radian} & Minimum value for angle \\
   R & Requirement\\
   SRS & Software Requirements Specification\\
   T & Theoretical Model\\
+  UC & Unlikely Change\\
   \bottomrule
 \end{tabular}\\
 
@@ -234,7 +236,7 @@ their stress distribution of a ideal truss sctructure.
 
 \subsection{Characteristics of Intended Reader} \label{sec_IntendedReader}
 Reviewers of this documentation should have an understanding of solving 
-equilibrium forces and moments from level 3 mechanical engineering.
+equilibrium forces and moments from level 1 engineering mechanic.
 
 \subsection{Organization of Document}
 The organization of this document follows the template for an SRS for 
@@ -267,7 +269,7 @@ flow between the system and its environment. \\
 
 \begin{figure}[h!]
 \begin{center}
- \includegraphics[width=0.6\textwidth]{System Context}
+ \includegraphics[width=0.6\textwidth]{SystemContext}
 \caption{System Context}
 \label{Fig_SystemContext} 
 \end{center}
@@ -296,8 +298,10 @@ the output data.
 \end{itemize}
 
 \subsection{User Characteristics} \label{SecUserCharacteristics}
-The end user of Truss should have an understanding of solving equilibrium 
-forces and moments from level 1 engineering mechanic.
+The end user of the system should have an understanding of solving equilibrium 
+forces and moments from level 1 engineering mechanic. The system might be used 
+as an educational tool for students studying in engineering to master the 
+concepts of static equilibrium and truss analysis.
 
 \subsection{System Constraints}
 There are no system constraints.
@@ -408,7 +412,7 @@ includes the following elements:
 
 \begin{figure}[h!]
 	\begin{center}
-		\includegraphics[width=0.6\textwidth]{Physical System}
+		\includegraphics[width=0.6\textwidth]{PhysicalSystem}
 		\caption{The physical system}
 		\label{Fig_PhysicalSystem} 
 	\end{center}
@@ -417,7 +421,7 @@ includes the following elements:
 \subsubsection{Goal Statements}\label{sec_goal}
 
 \noindent 
-Given the truss properties and the external force, the goal statement is:
+Given the truss properties and the external force, the goal statement are:
 
 \begin{itemize}
 \item[GS\refstepcounter{goalnum}\thegoalnum \label{G_solreactforce}:] 
@@ -425,8 +429,6 @@ Given the truss properties and the external force, the goal statement is:
 
 \item[GS\refstepcounter{goalnum}\thegoalnum \label{G_solforce}:] 
 {Solve the internal forces acting on truss members.}
-\item[GS\refstepcounter{goalnum}\thegoalnum \label{G_stressdist}:] 
-{Determine the stress distribution for each internal force.}
 \end{itemize}
 
 \subsection{Solution Characteristics Specification} \label{Sec_solcharspec}
@@ -438,11 +440,11 @@ models can be verified.
 
 \subsubsection{Assumptions} \label{sec_assumpt}
 
-This section simplifies the original problem and helps in developing the
-theoretical model by filling in the missing information for the physical
-system. The numbers given in the square brackets refer to the theoretical model
-[T], general definition [GD], data definition [DD], instance model [IM], or
-likely change [LC], in which the respective assumption is used.
+This section simplifies the truss analysis problem in real world and helps in 
+developing the theoretical model by filling in the missing information for the 
+physical system. The numbers given in the square brackets refer to the 
+theoretical model [T], general definition [GD], data definition [DD], instance 
+model [IM], or likely change [LC], in which the respective assumption is used.
 
 \begin{itemize}
 	
@@ -519,11 +521,13 @@ on.
   & $F_{\text{xi}}$ is the force component in the x direction of joint i.\\
   & $F_{\text{yi}}$ is the force component in the y direction of joint i.\\
   & $M_{\text{i}}$ is the moment component of joint i. \\
+  & A truss is considered statically determinate if $\sum M = 0$ at any point, 
+  and both $\sum F_{\text{x}} = 0$, $\sum F_{\text{y}} = 0$.\\
   \hline
   Source & \cite{MethodofJoints}, \cite{Moment}\\
   % The above web link should be replaced with a proper citation to a publication
   \hline
-  Ref.\ By & \aref{A_static}\\
+  Ref.\ By & \aref{A_static}, \aref{A_weightig}\\
   \hline
 \end{tabular}
 \end{minipage}\\
@@ -570,14 +574,13 @@ The goal \gsref{G_solforce} is met by \iref{I_solveA}, \iref{I_solveB}, and
 		in the x direction (N). \\
 		\hline
 		Notes& Because joint A is pinned, there is a reacting force in the x 
-		direction, $F_{\text{Ax}}$. We apply the static equilibrium to slove 
-		the reaction force, since $\sum F_{\text{x}} = 0$, $F_{\text{Ax}} = 
-		0$. 
-		\\
+		direction, $F_{\text{Ax}}$. We apply the static equilibrium $\sum 
+		F_{\text{x}} = 0$ to solve the reaction force. \\
 		\hline
 		Sources& - \\
 		\hline
-		Ref.\ By & \aref{A_frictionless}, \tref{T_staticeq} \\
+		Ref.\ By & \aref{A_static}, \aref{A_frictionless}, \aref{A_weightig}, 
+		\tref{T_staticeq} \\
 		\hline
 	\end{tabular}
 \end{minipage}\\
@@ -607,17 +610,15 @@ The goal \gsref{G_solforce} is met by \iref{I_solveA}, \iref{I_solveB}, and
 		&$x_1$ is the distance between joint A and joint D (m).\\
 		&$x_2$ is the distance between joint D and joint B (m).\\
 		\hline
-		Notes& The equation is from $\sum M_{\text{B}} = F_\text{1} \cdot 
-		x_\text{2} - F_{\text{Ay}} \cdot (x_\text{1} + x_\text{2}) = 0$. \\
-		&$F_{\text{Ay}}$ contributes a negative moment because it causes a 
-		clockwise moment about B. \\
-		&$F_1$ contributes a positive moment because it causes a 
-		counterclockwise moment about B.\\
+		Notes& We apply the static equilibrium $\sum M_{\text{B}} = F_\text{1} 
+		\cdot x_\text{2} - F_{\text{Ay}} \cdot (x_\text{1} + x_\text{2}) = 0$ 
+		to solve the reaction force. \\
 		&$x_1$ and $x_2$ are shown in figure \ref{Fig_PhysicalSystem}.\\
 		\hline
 		Sources& - \\
 		\hline
-		Ref.\ By & \aref{A_frictionless}, \tref{T_staticeq} \\
+		Ref.\ By & \aref{A_static}, \aref{A_frictionless}, \aref{A_weightig}, 
+		\tref{T_staticeq} \\
 		\hline
 	\end{tabular}
 \end{minipage}\\
@@ -647,18 +648,15 @@ The goal \gsref{G_solforce} is met by \iref{I_solveA}, \iref{I_solveB}, and
 		&$x_1$ is the distance between point A and point D (m).\\
 		&$x_2$ is the distance between point D and point B (m).\\
 		\hline
-		Notes&The equation is from $\sum M_{\text{A}} = F_{\text{By}} \cdot 
-		(x_\text{1} + x_\text{2}) - F_\text{1} \cdot x_\text{1} = 0$. \\
-		& $F_{\text{By}}$ contributes a positve moment because it causes a 
-		counterclockwise moment about A.\\
-		& $F_1$ contributes a negative moment because it causes a clockwise 
-		moment 
-		about B.\\
+		Notes& We apply the static equilibrium $\sum M_{\text{A}} = 
+		F_{\text{By}} \cdot (x_\text{1} + x_\text{2}) - F_\text{1} \cdot 
+		x_\text{1} = 0$ to solve the reaction force. \\
 		&$x_1$ and $x_2$ are shown in figure \ref{Fig_PhysicalSystem}. \\
 		\hline
 		Sources& - \\
 		\hline
-		Ref.\ By & \aref{A_frictionless}, \tref{T_staticeq} \\
+		Ref.\ By & \aref{A_static}, \aref{A_frictionless}, \aref{A_weightig}, 
+		\tref{T_staticeq} \\
 		\hline
 	\end{tabular}
 \end{minipage}\\
@@ -687,6 +685,7 @@ The goal \gsref{G_solforce} is met by \iref{I_solveA}, \iref{I_solveB}, and
 		&$F_{\text{Ay}}$ is the support reaction force at point A in the y 
 		direction (N).\\		
 		&$\theta_1$ is the angle between truss 1 and truss 3 (\si{\radian}).\\
+		&Truss structure are shown in figure \ref{Fig_PhysicalSystem}.\\
 		\hline
 		Notes& $\sum F_{\text{y}} = F_{\text{Ay}} + F_{\text{{AC}}} \cdot$ sin 
 		$\theta_1 = 0$\\
@@ -695,7 +694,8 @@ The goal \gsref{G_solforce} is met by \iref{I_solveA}, \iref{I_solveB}, and
 		\hline
 		Sources& - \\
 		\hline
-		Ref.\ By & \tref{T_staticeq} \\
+		Ref.\ By & \aref{A_static}, \aref{A_twoforce}, \aref{A_reactionjoint}, 
+		\tref{T_staticeq}, \iref{I_solveFay} \\
 		\hline
 	\end{tabular}
 \end{minipage}\\
@@ -724,6 +724,7 @@ The goal \gsref{G_solforce} is met by \iref{I_solveA}, \iref{I_solveB}, and
 		&$F_{\text{By}}$ is the support reaction force at point B in the y 
 		direction (N).\\	
 		&$\theta_2$ is the angle between truss 2 and truss 4 (\si{\radian}).\\
+		&Truss structure are shown in figure \ref{Fig_PhysicalSystem}.\\
 		\hline
 		Notes& $\sum F_{\text{y}} = F_{\text{By}} + F_{\text{{BC}}} \cdot$ sin 
 		$\theta_2 = 0$\\
@@ -732,7 +733,8 @@ The goal \gsref{G_solforce} is met by \iref{I_solveA}, \iref{I_solveB}, and
 		\hline
 		Sources& - \\
 		\hline
-		Ref.\ By & \tref{T_staticeq}\\
+		Ref.\ By & \aref{A_static}, \aref{A_twoforce}, \aref{A_reactionjoint}, 
+		\tref{T_staticeq}, \iref{I_solveFby}\\
 		\hline
 	\end{tabular}
 \end{minipage}\\
@@ -757,12 +759,14 @@ The goal \gsref{G_solforce} is met by \iref{I_solveA}, \iref{I_solveB}, and
 		\hline
 		Description&$F_{\text{{CD}}}$ is the force in truss 5 (N).\\
 		&$F_1$ is the given external force (N).\\
+		&Truss structure are shown in figure \ref{Fig_PhysicalSystem}.\\
 		\hline
 		Notes& $\sum F_{\text{y}} = F_{\text{CD}} - F_1 = 0$\\
 		\hline
 		Sources& - \\
 		\hline
-		Ref.\ By & \tref{T_staticeq}\\
+		Ref.\ By & \aref{A_static}, \aref{A_twoforce}, \aref{A_reactionjoint}, 
+		\tref{T_staticeq}\\
 		\hline
 	\end{tabular}
 \end{minipage}\\
@@ -796,12 +800,12 @@ uncertainty quantification exercise.
   $x_{\text{1}}$ & $x_{\text{1}} > 0$ & $d_{\text{min}} < x_{\text{1}} \leq 
   d_{\text{max}}$ & 3 \si{\metre} & 10\%  \\
   $x_{\text{2}}$ & $x_{\text{2}} > 0$ & $d_{\text{min}} < x_{\text{2}} \leq 
-  d_{\text{max}}$ & 7 \si{\metre} & 10\%  \\
+  d_{\text{max}}$ & 3 \si{\metre} & 10\%  \\
   $\theta_{\text{1}}$ & $0 < \theta_{\text{1}} < \pi $ & $ \theta_{\text{min}} 
-  < \theta_{\text{1}} < \theta_{\text{max}}$ & $\frac{\pi}{6}$ \si{\radian} & 
+  < \theta_{\text{1}} < \theta_{\text{max}}$ & $\frac{\pi}{4}$ \si{\radian} & 
   10\%  \\
   $\theta_{\text{2}}$ & $0 < \theta_{\text{2}} < \pi $ & $\theta_{\text{min}} < 
-  \theta_{\text{2}} < \theta_{\text{max}}$ & $\frac{\pi}{6}$ \si{\radian} & 
+  \theta_{\text{2}} < \theta_{\text{max}}$ & $\frac{\pi}{4}$ \si{\radian} & 
   10\%  \\
   \bottomrule
  
@@ -917,11 +921,13 @@ for structural mechanic and have the properties described in Section
 \ref{sec_CorrectSolution}.
 \item [NFR\refstepcounter{nonreqnum}\thenonreqnum \label{NFR_Verifiability}:]
 \textbf{Verifiablility.}: The properties of the software should be able to 
-tested easily through verification and validation plan.
+tested easily through verification and validation plan 
+(\href{https://github.com/tingyuw/cas741/blob/master/docs/VnVPlan/VnVPlan.pdf}{VnV
+ Plan}). 
 \item [NFR\refstepcounter{nonreqnum}\thenonreqnum 
 \label{NFR_Understandability}:]
 \textbf{Understandablility.} The source code and the design of the software 
-should be easy to understand by a new developer.
+should be understandable by a new developer.
 \item [NFR\refstepcounter{nonreqnum}\thenonreqnum \label{NFR_Portability}:] 
 \textbf{Portability.} The software is able to run on different environments, 
 such as Windows, MacOS, and Linux.
@@ -931,7 +937,8 @@ such as Windows, MacOS, and Linux.
 \textbf{Reliability.} The probability of failure-free software operation 
 for required functions for a specified period of time.
 \item [NFR\refstepcounter{nonreqnum}\thenonreqnum \label{NFR_Usability}:] 
-\textbf{Usability.} The system should be easy to learn and use.
+\textbf{Usability.} The system should be able to learn and use easily for 
+users. 
 
 \end{itemize}
 
@@ -1024,7 +1031,7 @@ the assumptions.
 		\aref{A_reactionjoint} \\
 		\hline
 		\tref{T_staticeq}       &X & & & &X & & \\ \hline
-		\iref{I_solveFax}       &X &X & & & & & \\ \hline
+		\iref{I_solveFax}       &X &X & & &X & & \\ \hline
 		\iref{I_solveFay}       &X &X & & &X & & \\ \hline
 		\iref{I_solveFby}       &X &X & & &X & & \\ \hline
 		\iref{I_solveA}         &X & & & & &X &X \\ \hline
