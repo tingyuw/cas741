@@ -31,8 +31,9 @@
 
 \begin{tabularx}{\textwidth}{p{3.5cm}p{2cm}X}
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
-October 29,~2020 & 1.0 & Initial version of VnV plan\\
-December 6,~2020 & 2.0 & Modification according to feedback\\
+October 29, 2020 & 1.0 & Initial version of VnV plan\\
+December 6, 2020 & 1.1 & Modification according to feedback\\
+December 8, 2020 & 2.0 & Add unit test description\\
 \bottomrule
 \end{tabularx}
 
@@ -558,11 +559,6 @@ The reliability test covers the NFR6.
 
 \section{Unit Test Description} \label{unitdescript}
 
-\wss{Reference your MIS and explain your overall philosophy for test case
-  selection.}  
-\wss{This section should not be filled in until after the MIS has
-  been completed.}
-
 \subsection{Unit Testing Scope}
 
 \wss{What modules are outside of the scope.  If there are modules that are
@@ -572,105 +568,160 @@ The reliability test covers the NFR6.
   explain your rationale for the ranking of module importance.}
 
 \subsection{Tests for Functional Requirements}
+The purpose of the unit test is to ensure that each module is behaving 
+accurately and that each module is satisfying the 
+\href{https://github.com/tingyuw/cas741/blob/master/docs/SRS/SRS.pdf}{SRS} 
+requirements.
 
-\wss{Most of the verification will be through automated unit testing.  If
-  appropriate specific modules can be verified by a non-testing based
-  technique.  That can also be documented in this section.}
+\subsubsection{Input Parameters Module} \label{inParam}
+The following tests are created to ensure that the input parameters validate 
+the user input sets. This first step is critical as all of the other
+modules rely on these parameters.
 
-\subsubsection{Module 1}
+\begin{enumerate}
+\item{Input parameter\\}
+	
+	Type: Automatic
+	
+	Initial State: Truss is started and running
+	
+	Input: import input.txt 
+	
+	Output: assert = True
+	
+	Test Case Derivation: The parameters inputted by the user should match the
+	state variable from InputParameters. An assert statement will return True 
+	if these are equal
+	
+	How test will be performed: It will be performed by test classes built with 
+	the help of Pytest
+\end{enumerate}
 
-\wss{Include a blurb here to explain why the subsections below cover the module.
-  References to the MIS would be good.  You will want tests from a black box
-  perspective and from a white box perspective.  Explain to the reader how the
-  tests were selected.}
+\subsubsection{Input Constraints Module} \label{inConst}
+The following tests are created to ensure that the system can successfully 
+verify the validation of inputs. The system should do the calculations if valid 
+parameters are given, and display error messages if invalid ones are given.
 
 \begin{enumerate}
 
-\item{test-id1\\}
+\item{Valid parameter\\}
 
-Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
-  be automatic}
+Type: Automatic
 					
-Initial State: 
+Initial State: Truss is started and running
 					
-Input: 
+Input: import input.txt with valid input sets
 					
-Output: \wss{The expected result for the given inputs}
+Output: assert = True
 
-Test Case Derivation: \wss{Justify the expected value given in the Output field}
+Test Case Derivation: The system should generate an output file with the 
+internal forces displayed. An assert statement will return True if the input 
+parameters satisfy the constraints
 
-How test will be performed: 
+How test will be performed: It will be performed by test classes built with the 
+help of Pytest
 					
-\item{test-id2\\}
+\item{Invalid parameter\\}
 
-Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
-  be automatic}
+Type: Automatic
 					
-Initial State: 
+Initial State: Truss is started and running
 					
-Input: 
+Input: testcase\_invalidforce.txt, testcase\_invaliddistance.txt, 
+testcase\_invalidangle.txt
 					
-Output: \wss{The expected result for the given inputs}
+Output: assert = True
 
-Test Case Derivation: \wss{Justify the expected value given in the Output field}
+Test Case Derivation: Invalid inputs will be inputed to the system. It should 
+display the correct error message. An assert statement will return True if the 
+system successfully detects the invalid inputs 
 
-How test will be performed: 
+How test will be performed: It will be performed by test classes built with the 
+help of Pytest
 
-\item{...\\}
-    
 \end{enumerate}
 
-\subsubsection{Module 2}
+\subsubsection{Calculation Module} \label{calculation}
+The module should do the calculations to solve the internal forces. The 
+following tests are created to check the correctness of the solutions by 
+comparing them with expected outputs. 
 
-...
+\begin{enumerate}
+	
+	\item{Calculation\\}
+	
+	Type: Automatic
+	
+	Initial State: Truss is started and running
+	
+	Input: import input.txt with valid input sets
+	
+	Output: assert = True
+	
+	Test Case Derivation: Outputs of the system should match the values 
+	calculated by an online software, 
+	\href{https://skyciv.com/free-truss-calculator/}{Truss 
+	Calculator}. An assert statement will return True if the relative error 
+	between calculated outputs and expected outputs is within 1\%
+	
+	How test will be performed: It will be performed by test classes built with 
+	the help of Pytest
+	
+\end{enumerate}
+
+\subsubsection{Output Module} \label{output}
+The module should do the calculations to solve the internal forces. The 
+following tests are created to check the correctness of the solutions by 
+comparing them with expected outputs. 
+
+\begin{enumerate}
+	
+	\item{Output\\}
+	
+	Type: Maunal
+	
+	Initial State: Truss is started and running
+	
+	Input: import input.txt with valid input sets
+	
+	Output: Generate output.txt file 
+	
+	Test Case Derivation: Outputs should include all the calculated internal 
+	forces and stress distribution of each force
+	
+	How test will be performed: Unit test will call the function with valid
+	inputs, and check if the output.txt file is generated in the project folder
+	
+\end{enumerate}
 
 \subsection{Tests for Nonfunctional Requirements}
-
-\wss{If there is a module that needs to be independently assessed for
-  performance, those test cases can go here.  In some projects, planning for
-  nonfunctional tests of units will not be that relevant.}
-
-\wss{These tests may involve collecting performance data from previously
-  mentioned functional tests.}
-
-\subsubsection{Module ?}
-		
-\begin{enumerate}
-
-\item{test-id1\\}
-
-Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
-  be automatic}
-					
-Initial State: 
-					
-Input/Condition: 
-					
-Output/Result: 
-					
-How test will be performed: 
-					
-\item{test-id2\\}
-
-Type: Functional, Dynamic, Manual, Static etc.
-					
-Initial State: 
-					
-Input: 
-					
-Output: 
-					
-How test will be performed: 
-
-\end{enumerate}
-
-\subsubsection{Module ?}
-
-...
+Testing nonfunctional requirements of units is not required for Truss. Tests 
+for nonfunctional requirements of system are introduced in section 
+\ref{testnfr}.
 
 \subsection{Traceability Between Test Cases and Modules}
+The purpose of the traceability matrices is to provide easy references on what
+has to be additionally modified if a certain component is changed. Table 
+\ref{Tbltrace} shows the dependencies between the test cases and the 
+requirements.
 
-\wss{Provide evidence that all of the modules have been considered.}
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{l l} 
+		\toprule		
+		\textbf{Test Cases} & \textbf{Modules}\\
+		\midrule 
+		\ref{inParam} & Input Parameters Module\\
+		\ref{inConst} & Input Constraints Module\\
+		\ref{calculation} & Calculation Module\\
+		\ref{output} & Output Module \\
+		\bottomrule
+	\end{tabular}\\
+
+	\caption{Traceability Matrix of the connections between modules and
+	tests} 
+	\label{Tbltrace}
+\end{table}
 				
 \newpage
 
