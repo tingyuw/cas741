@@ -100,7 +100,6 @@ in the software correctness and increasing the reliability of the software.
 	\item Drasil-generated code
 	\item VnV report
 \end{itemize}
-\an{Hyperlink will be included after building}
 
 
 \section{Plan} \label{verplan}
@@ -149,7 +148,7 @@ The implementation verification plan includes the followings:
 	\item Expert review. This verification will be performed by individuals in 
 	the verification and validation team, as listed in section \ref{VnVteam}, 
 	by paying close attention and looking for potential implementation errors. 
-	\item Unit testing. Tool we used for unit testing is PyUnit, the python 
+	\item Unit testing. Tool we used for unit testing is PyTest, the python 
 	unit testing framework. More details are outlined in section 
 	\ref{unitdescript}.
 \end{itemize}
@@ -157,7 +156,8 @@ The implementation verification plan includes the followings:
 \subsection{Automated Testing and Verification Tools} \label{autotool}
 Following tools are used to verify the Truss software:
 \begin{itemize}
-	\item System testing:
+	\item System testing: Pytest will be implemented for automated system 
+	testing. More details can be found in Section \ref{sysdescript}.
 	\item Unit testing: Pytest will be implemented for automated unit testing. 
 	More details can be found in Section \ref{unitdescript}.
 	\item Code coverage: Coverage.py automatically measure code coverage of 
@@ -170,8 +170,10 @@ Following tools are used to verify the Truss software:
 \end{itemize}
 
 \subsection{Software Validation Plan} \label{sftwareplan}
-The software will be validated by testing the correctness of outputs, which is 
-covered in section \ref{outverify}.
+Truss does not have a validation step. Validation is the process of
+comparing the outputs of models to experimental values. Truss only illustrates 
+the position of the truss in ideal condition. So there is no need to validate 
+the outputs of Truss.
 
 \section{System Test Description} \label{sysdescript}
 	
@@ -564,19 +566,10 @@ The reliability test covers the NFR6.
 	\label{Table:A_trace}
 \end{table}
 
-
-
-
-
 \section{Unit Test Description} \label{unitdescript}
 
 \subsection{Unit Testing Scope}
-
-\wss{What modules are outside of the scope.  If there are modules that are
-  developed by someone else, then you would say here if you aren't planning on
-  verifying them.  There may also be modules that are part of your software, but
-  have a lower priority for verification than others.  If this is the case,
-  explain your rationale for the ranking of module importance.}
+All the modules will be test in the following sections.
 
 \subsection{Tests for Functional Requirements}
 The purpose of the unit test is to ensure that each module is behaving 
@@ -673,7 +666,7 @@ comparing them with expected outputs.
 	calculated by an online software, 
 	\href{https://skyciv.com/free-truss-calculator/}{Truss 
 	Calculator}. An assert statement will return True if the relative error 
-	between calculated outputs and expected outputs is within 1\%
+	between calculated outputs and expected outputs is within 5\%
 	
 	How test will be performed: It will be performed by test classes built with 
 	the help of Pytest
