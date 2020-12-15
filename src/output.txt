@@ -1,0 +1,5 @@
+F_AC = 353.553N, and it is in compression.
+F_AD = 250.0N, and it is in tension.
+F_BC = 353.553N, and it is in compression.
+F_BD = 250.0N, and it is in tension.
+F_CD = 500.0N, and it is in tension.

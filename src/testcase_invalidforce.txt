@@ -1,0 +1,22 @@
+# set 1 #
+# external force (N)
+-100001
+# distance first (m)
+3.0
+# distance second (m)
+7.0
+# angle first (degree)
+30
+# angle second (degree)
+30
+# set 2 #
+# external force (N)
+100001
+# distance first (m)
+3.0
+# distance second (m)
+7.0
+# angle first (degree)
+30
+# angle second (degree)
+30
